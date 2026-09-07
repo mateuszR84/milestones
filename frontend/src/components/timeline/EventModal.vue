@@ -42,20 +42,20 @@ async function remove() {
       </div>
 
       <p v-if="event.participants.length" class="text-sm text-neutral-500">
-        Z udziałem: {{ event.participants.map((p) => p.name).join(', ') }}
+        {{ $t('eventModal.participantsPrefix') }}: {{ event.participants.map((p) => p.name).join(', ') }}
       </p>
 
       <a v-if="event.external_link" :href="event.external_link" target="_blank" rel="noopener" class="block text-sm text-neutral-900 underline">
-        Więcej zdjęć →
+        {{ $t('eventModal.moreLink') }}
       </a>
 
       <div v-if="isOwner" class="flex justify-end items-center gap-3 pt-2">
         <template v-if="confirmingDelete">
-          <span class="text-sm text-neutral-500">Na pewno usunąć?</span>
-          <button class="text-sm text-neutral-500 underline" @click="confirmingDelete = false">Anuluj</button>
-          <button class="text-sm text-red-600 underline" @click="remove">Usuń</button>
+          <span class="text-sm text-neutral-500">{{ $t('eventModal.confirmDelete') }}</span>
+          <button class="text-sm text-neutral-500 underline" @click="confirmingDelete = false">{{ $t('eventModal.cancel') }}</button>
+          <button class="text-sm text-red-600 underline" @click="remove">{{ $t('eventModal.delete') }}</button>
         </template>
-        <button v-else class="text-sm text-red-600 underline" @click="confirmingDelete = true">Usuń wydarzenie</button>
+        <button v-else class="text-sm text-red-600 underline" @click="confirmingDelete = true">{{ $t('eventModal.deleteEvent') }}</button>
       </div>
     </div>
   </div>

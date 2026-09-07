@@ -18,7 +18,7 @@ function toggle(id: number) {
 
 <template>
   <div>
-    <p v-if="!friendsStore.friends.length" class="text-sm text-neutral-400">Nie masz jeszcze znajomych do otagowania.</p>
+    <p v-if="!friendsStore.friends.length" class="text-sm text-neutral-400">{{ $t('friendPicker.none') }}</p>
     <div v-else class="flex flex-wrap gap-2">
       <button
         v-for="friend in friendsStore.friends"

@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateEventRequest;
 use App\Models\Event;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
 
 class EventController extends Controller
@@ -37,6 +38,7 @@ class EventController extends Controller
             'description' => $data['description'] ?? null,
             'event_date' => $data['event_date'],
             'external_link' => $data['external_link'] ?? null,
+            'color' => Arr::random(Event::COLORS),
         ]);
 
         foreach ($request->file('photos', []) as $position => $photo) {

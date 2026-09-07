@@ -15,7 +15,7 @@ async function handleLogout() {
 </script>
 
 <template>
-  <header class="flex items-center justify-between border-b border-neutral-200 px-6 py-3">
+  <header class="flex items-center justify-between border-b border-white/40 bg-white/30 px-6 py-3 backdrop-blur-xl">
     <router-link to="/" class="text-lg font-medium tracking-tight text-neutral-900">
       milestones
     </router-link>
@@ -23,7 +23,7 @@ async function handleLogout() {
     <div class="relative">
       <button
         class="rounded p-2 text-neutral-500 hover:bg-neutral-100"
-        aria-label="Menu"
+        :aria-label="$t('nav.menu')"
         @click="menuOpen = !menuOpen"
       >
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -36,10 +36,10 @@ async function handleLogout() {
         class="absolute right-0 top-full z-20 mt-2 w-48 rounded-md border border-neutral-200 bg-white py-1 shadow-lg"
         @click="menuOpen = false"
       >
-        <router-link to="/" class="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50">Oś czasu</router-link>
-        <router-link to="/friends" class="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50">Znajomi</router-link>
+        <router-link to="/" class="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50">{{ $t('nav.timeline') }}</router-link>
+        <router-link to="/friends" class="block px-4 py-2 text-sm text-neutral-700 hover:bg-neutral-50">{{ $t('nav.friends') }}</router-link>
         <button class="block w-full px-4 py-2 text-left text-sm text-neutral-700 hover:bg-neutral-50" @click="handleLogout">
-          Wyloguj
+          {{ $t('nav.logout') }}
         </button>
       </div>
     </div>

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { useFriendsStore } from '../stores/friends'
 import { useTimelineSharesStore } from '../stores/timelineShares'
 
+const { t } = useI18n()
 const friendsStore = useFriendsStore()
 const sharesStore = useTimelineSharesStore()
 
@@ -19,9 +21,9 @@ async function sendRequest() {
   try {
     await friendsStore.sendRequest(friendEmail.value)
     friendEmail.value = ''
-    message.value = 'Zaproszenie wysłane.'
+    message.value = t('friends.inviteSent')
   } catch {
-    message.value = 'Nie udało się wysłać zaproszenia.'
+    message.value = t('friends.inviteFailed')
   }
 }
 
@@ -30,9 +32,9 @@ async function shareTimeline() {
   try {
     await sharesStore.shareWith(shareEmail.value)
     shareEmail.value = ''
-    message.value = 'Oś czasu udostępniona.'
+    message.value = t('friends.shareSent')
   } catch {
-    message.value = 'Nie udało się udostępnić osi czasu (czy to Twój znajomy?).'
+    message.value = t('friends.shareFailed')
   }
 }
 </script>
@@ -40,7 +42,7 @@ async function shareTimeline() {
 <template>
   <div class="mx-auto max-w-2xl px-6 py-8 space-y-10">
     <section>
-      <h2 class="text-lg font-medium text-neutral-900">Zaproszenia oczekujące</h2>
+      <h2 class="text-lg font-medium text-neutral-900">{{ $t('friends.pendingRequests') }}</h2>
       <ul class="mt-3 space-y-2">
         <li
           v-for="req in friendsStore.incomingRequests"
@@ -49,16 +51,16 @@ async function shareTimeline() {
         >
           <span class="text-sm text-neutral-700">{{ req.requester?.name }} ({{ req.requester?.email }})</span>
           <div class="flex gap-2">
-            <button class="text-sm text-neutral-900 underline" @click="friendsStore.accept(req.id)">Przyjmij</button>
-            <button class="text-sm text-neutral-400 underline" @click="friendsStore.decline(req.id)">Odrzuć</button>
+            <button class="text-sm text-neutral-900 underline" @click="friendsStore.accept(req.id)">{{ $t('friends.accept') }}</button>
+            <button class="text-sm text-neutral-400 underline" @click="friendsStore.decline(req.id)">{{ $t('friends.decline') }}</button>
           </div>
         </li>
-        <li v-if="!friendsStore.incomingRequests.length" class="text-sm text-neutral-400">Brak oczekujących zaproszeń.</li>
+        <li v-if="!friendsStore.incomingRequests.length" class="text-sm text-neutral-400">{{ $t('friends.noPendingRequests') }}</li>
       </ul>
     </section>
 
     <section>
-      <h2 class="text-lg font-medium text-neutral-900">Znajomi</h2>
+      <h2 class="text-lg font-medium text-neutral-900">{{ $t('friends.friendsTitle') }}</h2>
       <ul class="mt-3 space-y-2">
         <li
           v-for="friend in friendsStore.friends"
@@ -66,9 +68,9 @@ async function shareTimeline() {
           class="flex items-center justify-between rounded border border-neutral-200 px-4 py-2"
         >
           <span class="text-sm text-neutral-700">{{ friend.name }} ({{ friend.email }})</span>
-          <router-link :to="`/timeline/${friend.id}`" class="text-sm text-neutral-900 underline">Oś czasu</router-link>
+          <router-link :to="`/timeline/${friend.id}`" class="text-sm text-neutral-900 underline">{{ $t('friends.timelineLink') }}</router-link>
         </li>
-        <li v-if="!friendsStore.friends.length" class="text-sm text-neutral-400">Nie masz jeszcze znajomych.</li>
+        <li v-if="!friendsStore.friends.length" class="text-sm text-neutral-400">{{ $t('friends.noFriends') }}</li>
       </ul>
 
       <form class="mt-4 flex gap-2" @submit.prevent="sendRequest">
@@ -76,18 +78,18 @@ async function shareTimeline() {
           v-model="friendEmail"
           type="email"
           required
-          placeholder="e-mail znajomego"
+          :placeholder="$t('friends.emailPlaceholder')"
           class="flex-1 rounded border border-neutral-300 px-3 py-2 text-sm focus:border-neutral-500 focus:outline-none"
         />
         <button type="submit" class="rounded bg-neutral-900 px-4 py-2 text-sm font-medium text-white hover:bg-neutral-700">
-          Zaproś
+          {{ $t('friends.invite') }}
         </button>
       </form>
     </section>
 
     <section>
-      <h2 class="text-lg font-medium text-neutral-900">Udostępnianie osi czasu</h2>
-      <p class="mt-1 text-sm text-neutral-500">Wybrani znajomi zobaczą Twoją oś czasu (tylko podgląd).</p>
+      <h2 class="text-lg font-medium text-neutral-900">{{ $t('friends.shareTitle') }}</h2>
+      <p class="mt-1 text-sm text-neutral-500">{{ $t('friends.shareDescription') }}</p>
 
       <ul class="mt-3 space-y-2">
         <li
@@ -96,9 +98,9 @@ async function shareTimeline() {
           class="flex items-center justify-between rounded border border-neutral-200 px-4 py-2"
         >
           <span class="text-sm text-neutral-700">{{ share.shared_with?.name }} ({{ share.shared_with?.email }})</span>
-          <button class="text-sm text-neutral-400 underline" @click="sharesStore.revoke(share.id)">Odbierz dostęp</button>
+          <button class="text-sm text-neutral-400 underline" @click="sharesStore.revoke(share.id)">{{ $t('friends.revoke') }}</button>
         </li>
-        <li v-if="!sharesStore.given.length" class="text-sm text-neutral-400">Nie udostępniłeś jeszcze swojej osi czasu.</li>
+        <li v-if="!sharesStore.given.length" class="text-sm text-neutral-400">{{ $t('friends.noShares') }}</li>
       </ul>
 
       <form class="mt-4 flex gap-2" @submit.prevent="shareTimeline">
@@ -106,16 +108,16 @@ async function shareTimeline() {
           v-model="shareEmail"
           type="email"
           required
-          placeholder="e-mail znajomego"
+          :placeholder="$t('friends.emailPlaceholder')"
           class="flex-1 rounded border border-neutral-300 px-3 py-2 text-sm focus:border-neutral-500 focus:outline-none"
         />
         <button type="submit" class="rounded bg-neutral-900 px-4 py-2 text-sm font-medium text-white hover:bg-neutral-700">
-          Udostępnij
+          {{ $t('friends.share') }}
         </button>
       </form>
 
       <div v-if="sharesStore.received.length" class="mt-6">
-        <h3 class="text-sm font-medium text-neutral-700">Osie czasu udostępnione Tobie</h3>
+        <h3 class="text-sm font-medium text-neutral-700">{{ $t('friends.sharedWithYouTitle') }}</h3>
         <ul class="mt-2 space-y-2">
           <li
             v-for="share in sharesStore.received"
@@ -123,7 +125,7 @@ async function shareTimeline() {
             class="flex items-center justify-between rounded border border-neutral-200 px-4 py-2"
           >
             <span class="text-sm text-neutral-700">{{ share.owner?.name }}</span>
-            <router-link :to="`/timeline/${share.owner_id}`" class="text-sm text-neutral-900 underline">Zobacz</router-link>
+            <router-link :to="`/timeline/${share.owner_id}`" class="text-sm text-neutral-900 underline">{{ $t('friends.view') }}</router-link>
           </li>
         </ul>
       </div>

@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['user_id', 'title', 'description', 'event_date', 'external_link'])]
+#[Fillable(['user_id', 'title', 'description', 'event_date', 'external_link', 'color'])]
 class Event extends Model
 {
+    public const COLORS = ['violet', 'blue', 'peach', 'pink', 'sky', 'amber'];
+
     protected function casts(): array
     {
         return [

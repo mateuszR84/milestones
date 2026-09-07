@@ -29,6 +29,8 @@ export interface EventPhoto {
   url: string
 }
 
+export type EventColor = 'violet' | 'blue' | 'peach' | 'pink' | 'sky' | 'amber'
+
 export interface MilestoneEvent {
   id: number
   user_id: number
@@ -36,6 +38,7 @@ export interface MilestoneEvent {
   description: string | null
   event_date: string
   external_link: string | null
+  color: EventColor | null
   photos: EventPhoto[]
   participants: User[]
 }
