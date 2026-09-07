@@ -1,6 +1,7 @@
 export default {
   nav: {
     timeline: 'Oś czasu',
+    events: 'Wydarzenia',
     friends: 'Znajomi',
     logout: 'Wyloguj',
     menu: 'Menu',
@@ -87,5 +88,8 @@ export default {
   },
   friendPicker: {
     none: 'Nie masz jeszcze znajomych do otagowania.',
+  },
+  events: {
+    empty: 'Nie masz jeszcze żadnych wydarzeń.',
   },
 }

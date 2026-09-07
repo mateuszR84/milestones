@@ -1,6 +1,7 @@
 export default {
   nav: {
     timeline: 'Timeline',
+    events: 'Events',
     friends: 'Friends',
     logout: 'Log out',
     menu: 'Menu',
@@ -87,5 +88,8 @@ export default {
   },
   friendPicker: {
     none: "You don't have any friends to tag yet.",
+  },
+  events: {
+    empty: "You don't have any events yet.",
   },
 }
